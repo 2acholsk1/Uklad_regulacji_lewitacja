@@ -67,3 +67,23 @@ B_cl = B
 Tp = 0.00001;
 p = [-600, -700, -600];
 L = acker(A', C', p)';
+
+%% postac diagonalna
+csys = canon(sys)
+
+%% postac sterowalna
+syms s
+sI = s*eye(3);
+Ms = det(sI-A);
+pretty(Ms);
+
+As = [0 1 0; 0 0 1; 3.8138*10^5 2.0473*10^3 -186.2891]
+Bs = [0;0;1]
+
+S = [B(:,1) A*B(:,1) A^2*B(:,1)];
+Ss = [Bs As*Bs As^2*Bs];
+
+P = Ss*S^-1;
+
+Cs = C*P^-1
+Ds = D
