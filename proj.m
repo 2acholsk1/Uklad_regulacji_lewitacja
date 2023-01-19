@@ -64,5 +64,6 @@ A_cl = A - B(:, 1)*K
 B_cl = B
 
 %% obserwator stanu
-p = [-350, -70, -300];
+Tp = 0.00001;
+p = [-600, -700, -600];
 L = acker(A', C', p)';
