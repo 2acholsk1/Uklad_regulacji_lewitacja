@@ -45,13 +45,13 @@ isstable(sys)
 
 %% wyznaczanie transmitancji
 G = tf(sys);
-G = G(1);
+G = G(1)
 Gf = 1/G;
 
 %% nastawy PID
-kp = 80;
-ki = 1/5;
-kd = 1;
+kp = 20;
+ki = 1;
+kd = 1/kp * 0.12;
 
 %% sprzezenie od stanu
 K = place(A, B(:, 1), [-28, -60, -90]);

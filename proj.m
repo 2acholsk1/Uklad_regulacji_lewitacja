@@ -45,17 +45,23 @@ isstable(sys)
 
 %% wyznaczanie transmitancji
 G = tf(sys);
-G = G(1);
+G = G(1)
 Gf = 1/G;
 
 %% nastawy PID
-kp = 80;
-ki = 1/5;
-kd = 1;
+kp = 110;
+ki = 30;
+kd = 4;
 
 %% sprzezenie od stanu
-K = place(A, B(:, 1), [-28, -60, -90]);
+% u = x_des - Kx
+% x' = Ax + B(x_des - Kx)
+% x' = Ax + Bx_des - BKx
+% x' = (A - BK)x + Bx_des
 
+K = place(A, B(:, 1), [-28, -60, -90])
+A_cl = A - B(:, 1)*K
+B_cl = B
 
 %% obserwator stanu
 p = [-350, -70, -300];
