@@ -39,13 +39,13 @@ D = 0;
 sys = ss(A,B,C,D);
 
 disp("sterowalnosc; obserwowalnosc; stabilnosc");
-rank(ctrb(sys)) == rank(A)
-rank(obsv(sys)) == rank(A)
-isstable(sys)
+rank(ctrb(sys)) == rank(A);
+rank(obsv(sys)) == rank(A);
+isstable(sys);
 
 %% wyznaczanie transmitancji
 G = tf(sys);
-G = G(1)
+G = G(1);
 Gf = 1/G;
 
 %% nastawy PID
@@ -59,9 +59,9 @@ kd = 4;
 % x' = Ax + Bx_des - BKx
 % x' = (A - BK)x + Bx_des
 
-K = place(A, B(:, 1), [-28, -60, -90])
-A_cl = A - B(:, 1)*K
-B_cl = B
+K = place(A, B(:, 1), [-28, -60, -90]);
+A_cl = A - B(:, 1)*K;
+B_cl = B;
 
 %% obserwator stanu
 Tp = 0.00001;
@@ -69,21 +69,27 @@ p = [-600, -700, -600];
 L = acker(A', C', p)';
 
 %% postac diagonalna
-csys = canon(sys)
+csys = canon(sys);
 
 %% postac sterowalna
 syms s
 sI = s*eye(3);
 Ms = det(sI-A);
-pretty(Ms);
+% pretty(Ms);
 
-As = [0 1 0; 0 0 1; 3.8138*10^5 2.0473*10^3 -186.2891]
-Bs = [0;0;1]
+As = [0 1 0; 0 0 1; 3.8138*10^5 2.0473*10^3 -186.2891];
+Bs = [0;0;1];
 
 S = [B(:,1) A*B(:,1) A^2*B(:,1)];
 Ss = [Bs As*Bs As^2*Bs];
 
 P = Ss*S^-1;
 
-Cs = C*P^-1
-Ds = D
+Cs = C*P^-1;
+Ds = D;
+
+%% filtr kalmana
+Ad = eye(3) + A*Tp;
+Bd = B(:,1)*Tp;
+Cd = C;
+Dd = D;
